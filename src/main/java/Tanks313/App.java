@@ -1,9 +1,5 @@
 package Tanks313;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -18,10 +14,13 @@ public class App extends Canvas implements Runnable
     public static final int WIDTH=320;
     public static final int HEIGHT=WIDTH/12*9;
     public static final int SCALE=2;
-    public static String TITLE="INTROVERT.game";
+    public static String TITLE="TANKS.game";
 
     private boolean running=false;
     private Thread thread;
+    private  boolean gameState=false;
+    private  boolean menuState=true;
+
 
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet=null;
@@ -34,10 +33,112 @@ public class App extends Canvas implements Runnable
 
     public static int STAMINA=200;
     public static int SCORE=0;
-    JFrame frame;
+    static JFrame frame;
+
+    public void init()
+    {
+        BufferedImageLoader loader = new BufferedImageLoader();
+    }
+
+    private void showMenu()
+    {
+        running=false;
+        gameState=false;
+        menuState=true;
+        Menu menu = new Menu();
+        menu.render(frame);
+        return;
+    }
+
+    private  synchronized void  start()
+    {
+        menuState=false;
+        gameState=true;
+        if (running)
+            return;
+
+        running = true;
+
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    private  synchronized  void  stop() throws InterruptedException {
+        if (!running)
+            return;
+        running=false;
+        try {
+            thread.join();
+            gameState=false;
+            menuState=true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(1);
+    }
 
     @Override
     public void run() {
+        init();
+        long lastTime = System.nanoTime();
+        final double maxFPS = 60.0;
+        double ns = 1000000000 / maxFPS;
+        double delta =0;
+        int updates=0;
+        int frames = 0;
+        long timer = System.currentTimeMillis();
+
+        while(running)
+        {
+            long now = System.nanoTime();
+            delta += ( now - lastTime ) / ns;
+            lastTime = now;
+            if(delta >1 )
+            {
+                tick();
+                updates++;
+                delta--;
+            }
+            render();
+            frames++;
+            if(System.currentTimeMillis()-timer > 10)
+            {
+                timer+=1000;
+                System.out.println("fps: " + frames);
+                updates=0;
+                frames=0;
+            }
+        }
+
+        try {
+            stop();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void tick() {
+
+    }
+
+    private void  render()
+    {
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs == null)
+        {
+            createBufferStrategy(3);
+            return;
+        }
+
+        Graphics g = bs.getDrawGraphics();
+        ///////////////
+
+        g.drawImage(image, 0x0, 0x0, getWidth(), getHeight(), this);
+
+        //////////////
+        g.dispose();
+        bs.show();
 
     }
 
@@ -59,16 +160,18 @@ public class App extends Canvas implements Runnable
        setMinimumSize(new Dimension(WIDTH*SCALE, HEIGHT * SCALE) );
        frame = new JFrame (TITLE);
        frame.setSize(new Dimension(WIDTH*SCALE, HEIGHT * SCALE));
-       Menu menu = new Menu();
+
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        frame.setResizable(false);
        frame.setVisible(true);
-       menu.render(frame);
+
    }
 
-        public static void main( String[] args )
-    {
-       App game = new App();
+        public static void main( String[] args ) throws InterruptedException {
+            App game = new App();
+            final Component add = frame.add(game);
+            /* game.show1Menu(); */
+            game.start();
     }
 
 }
