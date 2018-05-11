@@ -40,6 +40,7 @@ public class App extends Canvas implements Runnable
     private BufferedImage player;
 
     public void init() throws IOException {
+        requestFocus(); //dont need to click on the window
         BufferedImageLoader loader = new BufferedImageLoader();
         try
         {
@@ -205,22 +206,20 @@ public class App extends Canvas implements Runnable
     {
         int key=e.getKeyCode();
 
-        if(key==KeyEvent.VK_RIGHT  )
+        if(key==KeyEvent.VK_RIGHT)
         {
-            p.setX(p.getX()+10);
-
+            p.setVelX(8);
         }
         else if (key==KeyEvent.VK_LEFT)
         {
-            p.setX(p.getX()-10);
+            p.setVelX(-8);
         }
         else if(key==KeyEvent.VK_DOWN)
         {
-            p.setY(p.getY()+10);
-        }
+            p.setVelY(8);        }
         else if(key==KeyEvent.VK_UP)
         {
-            p.setY(p.getY()-10);
+            p.setVelY(-8);
         }
     }
 
@@ -230,19 +229,18 @@ public class App extends Canvas implements Runnable
 
         if(key==KeyEvent.VK_RIGHT)
         {
-            p.setX(p.getX());
+            p.setVelX(0);
         }
         else if (key==KeyEvent.VK_LEFT)
         {
-            p.setX(p.getX());
+            p.setVelX(0);
         }
         else if(key==KeyEvent.VK_DOWN)
         {
-            p.setY(p.getY());
-        }
+            p.setVelY(0);        }
         else if(key==KeyEvent.VK_UP)
         {
-            p.setY(p.getY());
+            p.setVelY(0);
         }
     }
 
