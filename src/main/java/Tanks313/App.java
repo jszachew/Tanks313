@@ -22,7 +22,7 @@ public class App extends Canvas implements Runnable
     private  boolean menuState=true;
 
     private Player p;
-
+    private  Controller c;
 
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet=null;
@@ -40,7 +40,7 @@ public class App extends Canvas implements Runnable
     private BufferedImage player;
 
     public void init() throws IOException {
-        requestFocus(); //dont need to click on the window
+        requestFocus(); //don t need to click on the window
         BufferedImageLoader loader = new BufferedImageLoader();
         try
         {
@@ -53,6 +53,7 @@ public class App extends Canvas implements Runnable
         addKeyListener(new KeyInput(this));
 
         p = new Player(200,202,this);
+        c= new Controller(this);
     }
 
     private void showMenu()
@@ -141,6 +142,7 @@ public class App extends Canvas implements Runnable
 
     private void tick() {
     p.tick();
+    c.tick();
     }
 
     private void  render()
@@ -156,7 +158,9 @@ public class App extends Canvas implements Runnable
         ///////////////
 
         g.drawImage(image, 0x0, 0x0, getWidth(), getHeight(), this);
+
         p.render(g);
+        c.render(g);
 
         //////////////
         g.dispose();
@@ -220,6 +224,10 @@ public class App extends Canvas implements Runnable
         else if(key==KeyEvent.VK_UP)
         {
             p.setVelY(-8);
+        }
+        else if(key==KeyEvent.VK_SPACE)
+        {
+            c.addBullet(new Bullet(p.getX(),p.getY(),this));
         }
     }
 
