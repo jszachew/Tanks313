@@ -26,6 +26,23 @@ public class Player {
         {
             x+=velX; //reduces the 1 sec. of waiting after holding the key
             y+=velY;
+
+            if(x<=0)
+            {
+                x=0;
+            }
+            if(x>=640-32)
+            {
+                x=640-48;
+            }
+            if(y<=0)
+            {
+                y=0;
+            }
+            if(y>=480-80)
+            {
+                y=480-80;
+            }
         }
 
         public  void render(Graphics g)
