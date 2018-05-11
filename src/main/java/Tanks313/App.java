@@ -49,6 +49,8 @@ public class App extends Canvas implements Runnable
         {
             e.printStackTrace();
         }
+        addKeyListener(new KeyInput(this));
+
         p = new Player(200,202,this);
     }
 
@@ -186,7 +188,8 @@ public class App extends Canvas implements Runnable
 
    }
 
-        public static void main( String[] args ) throws InterruptedException {
+   public static void main( String[] args ) throws InterruptedException
+   {
             App game = new App();
             final Component add = frame.add(game);
             /* game.show1Menu(); */
@@ -196,6 +199,51 @@ public class App extends Canvas implements Runnable
     public  BufferedImage getSpriteSheet()
     {
         return spriteSheet;
+    }
+
+    public  void keyPressed(KeyEvent e)
+    {
+        int key=e.getKeyCode();
+
+        if(key==KeyEvent.VK_RIGHT  )
+        {
+            p.setX(p.getX()+10);
+
+        }
+        else if (key==KeyEvent.VK_LEFT)
+        {
+            p.setX(p.getX()-10);
+        }
+        else if(key==KeyEvent.VK_DOWN)
+        {
+            p.setY(p.getY()+10);
+        }
+        else if(key==KeyEvent.VK_UP)
+        {
+            p.setY(p.getY()-10);
+        }
+    }
+
+    public void keyReleased(KeyEvent e)
+    {
+        int key=e.getKeyCode();
+
+        if(key==KeyEvent.VK_RIGHT)
+        {
+            p.setX(p.getX());
+        }
+        else if (key==KeyEvent.VK_LEFT)
+        {
+            p.setX(p.getX());
+        }
+        else if(key==KeyEvent.VK_DOWN)
+        {
+            p.setY(p.getY());
+        }
+        else if(key==KeyEvent.VK_UP)
+        {
+            p.setY(p.getY());
+        }
     }
 
 }
