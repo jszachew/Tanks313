@@ -21,13 +21,14 @@ public class App extends Canvas implements Runnable
     private  boolean gameState=false;
     private  boolean menuState=true;
 
+    private Player p;
+
 
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private BufferedImage spriteSheet=null;
     private BufferedImage background=null;
     private BufferedImage menuimg=null;
     private Menu menu;
-    private boolean is_shooting=false;
     private int enemy_count=1;
     private int enemy_killed=0;
 
@@ -35,9 +36,20 @@ public class App extends Canvas implements Runnable
     public static int SCORE=0;
     static JFrame frame;
 
-    public void init()
-    {
+    ////
+    private BufferedImage player;
+
+    public void init() throws IOException {
         BufferedImageLoader loader = new BufferedImageLoader();
+        try
+        {
+            spriteSheet = loader.loadImage("res/SpriteSheet.png");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        p = new Player(200,202,this);
     }
 
     private void showMenu()
@@ -49,6 +61,8 @@ public class App extends Canvas implements Runnable
         menu.render(frame);
         return;
     }
+
+
 
     private  synchronized void  start()
     {
@@ -79,7 +93,11 @@ public class App extends Canvas implements Runnable
 
     @Override
     public void run() {
-        init();
+        try {
+            init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         long lastTime = System.nanoTime();
         final double maxFPS = 60.0;
         double ns = 1000000000 / maxFPS;
@@ -119,7 +137,7 @@ public class App extends Canvas implements Runnable
     }
 
     private void tick() {
-
+    p.tick();
     }
 
     private void  render()
@@ -135,6 +153,7 @@ public class App extends Canvas implements Runnable
         ///////////////
 
         g.drawImage(image, 0x0, 0x0, getWidth(), getHeight(), this);
+        p.render(g);
 
         //////////////
         g.dispose();
@@ -172,6 +191,11 @@ public class App extends Canvas implements Runnable
             final Component add = frame.add(game);
             /* game.show1Menu(); */
             game.start();
+    }
+
+    public  BufferedImage getSpriteSheet()
+    {
+        return spriteSheet;
     }
 
 }

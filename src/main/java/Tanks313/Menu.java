@@ -21,7 +21,7 @@ public class Menu implements ActionListener {
     public static final int SCALE=2;
     JFrame m = new JFrame();
 
-    public  void render(JFrame g)
+    public  int render(JFrame g)
      {
          m=g;
          try
@@ -44,7 +44,9 @@ public class Menu implements ActionListener {
 
          g.pack();
 
+         return 1;
      }
+
 
 
     @Override
@@ -63,10 +65,12 @@ public class Menu implements ActionListener {
                 System.out.println("Image not found");
             }
 
+            /*
             bExit = new JButton("NO CODE!", new ImageIcon("C:/Users/kubas/tanks2/res/abortButton.png"));
             bExit.setBounds((WIDTH*SCALE)/2-100, (HEIGHT * SCALE)/2 + 20, 190, 80);
             m.add(bExit);
             bExit.addActionListener(this);
+            */
             m.pack();
         }
         if (source == bExit)

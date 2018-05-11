@@ -1,18 +1,33 @@
 package Tanks313;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Player {
-    private Weapon weapon;
-    private int damageBase;
 
-    public Player(int damageBase, Weapon weapon) {
-        this.damageBase = damageBase;
-        this.weapon = weapon;
-    }
+        private  double x;
+        private  double y;
 
-    public void attack(Enemy enemy) {
-        int damage = damageBase + weapon.rollDamage();
-        enemy.hit(damage);
+        private BufferedImage player;
 
-        System.out.printf("Player hit enemy for %s damage, enemy is at %s health\n", damage, enemy.getHealth());
-    }
+        public Player(double x, double y, App game)
+        {
+            this.x=x;
+            this.y=y;
+            SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
+
+            player = ss.grabImage(1,1,32,32);
+        }
+
+        public void tick()
+        {
+           y++;
+           x--;
+        }
+
+        public  void render(Graphics g)
+        {
+            g.drawImage(player,(int)x,(int)y,null);
+
+        }
 }
