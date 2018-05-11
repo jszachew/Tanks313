@@ -13,13 +13,14 @@ public class Player {
 
         private BufferedImage player;
 
-        public Player(double x, double y, App game)
+        private Textures tex;
+
+        public Player(double x, double y,Textures tex)
         {
             this.x=x;
             this.y=y;
-            SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
+            this.tex=tex;
 
-            player = ss.grabImage(1,1,32,32);
         }
 
         public void tick()
@@ -31,23 +32,23 @@ public class Player {
             {
                 x=0;
             }
-            if(x>=640-32)
+            if(x>=(App.WIDTH*App.SCALE)-32)
             {
-                x=640-48;
+                x=(App.WIDTH*App.SCALE)-32;
             }
             if(y<=0)
             {
                 y=0;
             }
-            if(y>=480-80)
+            if(y>=(App.HEIGHT*App.SCALE)-80)
             {
-                y=480-80;
+                y=(App.HEIGHT*App.SCALE)-80;
             }
         }
 
         public  void render(Graphics g)
         {
-            g.drawImage(player,(int)x,(int)y,null);
+            g.drawImage(tex.player,(int)x,(int)y,null);
 
         }
 

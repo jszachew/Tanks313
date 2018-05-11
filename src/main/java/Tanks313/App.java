@@ -21,12 +21,16 @@ public class App extends Canvas implements Runnable
     private  boolean gameState=false;
     private  boolean menuState=true;
 
+    private boolean isShooting = false;
+
     private Player p;
     private  Controller c;
+    private  Textures tex;
+
 
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
-    private BufferedImage spriteSheet=null;
     private BufferedImage background=null;
+    private BufferedImage spriteSheet=null;
     private BufferedImage menuimg=null;
     private Menu menu;
     private int enemy_count=1;
@@ -45,6 +49,7 @@ public class App extends Canvas implements Runnable
         try
         {
             spriteSheet = loader.loadImage("res/SpriteSheet.png");
+            background =loader.loadImage("res/background.png");
         }
         catch (IOException e)
         {
@@ -52,8 +57,10 @@ public class App extends Canvas implements Runnable
         }
         addKeyListener(new KeyInput(this));
 
-        p = new Player(200,202,this);
-        c= new Controller(this);
+        tex = new Textures(this);
+
+        p = new Player(200,200,tex);
+        c= new Controller(this,tex);
     }
 
     private void showMenu()
@@ -158,9 +165,12 @@ public class App extends Canvas implements Runnable
         ///////////////
 
         g.drawImage(image, 0x0, 0x0, getWidth(), getHeight(), this);
+        g.drawImage(background,0,0,null);
 
         p.render(g);
         c.render(g);
+
+
 
         //////////////
         g.dispose();
@@ -225,9 +235,10 @@ public class App extends Canvas implements Runnable
         {
             p.setVelY(-8);
         }
-        else if(key==KeyEvent.VK_SPACE)
+        else if(key==KeyEvent.VK_SPACE && !isShooting)
         {
-            c.addBullet(new Bullet(p.getX(),p.getY(),this));
+            isShooting = true;
+            c.addBullet(new Bullet(p.getX(),p.getY(),tex));
         }
     }
 
@@ -250,6 +261,11 @@ public class App extends Canvas implements Runnable
         {
             p.setVelY(0);
         }
+        else if(key==KeyEvent.VK_SPACE)
+        {
+            isShooting=false;
+        }
+
     }
 
 }

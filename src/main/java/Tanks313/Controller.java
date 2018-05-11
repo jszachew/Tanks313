@@ -6,13 +6,19 @@ import java.util.LinkedList;
 public class Controller {
 
     private LinkedList<Bullet> b= new LinkedList<Bullet>();
+    private LinkedList<Enemy> e = new LinkedList<Enemy>();
     Bullet TempBullet;
-
+    Enemy TempEnemy;
     App game;
-
-    public Controller(App game)
+    Textures tex;
+    public Controller(App game,Textures tex)
     {
         this.game=game;
+        this.tex=tex;
+        for (int x=0; x<(App.WIDTH * App.SCALE ); x+=64)
+        {
+            addEnemy((new Enemy(x,0,tex)));
+        }
     }
 
     public  void tick()
@@ -26,6 +32,16 @@ public class Controller {
             }
             TempBullet.tick();
         }
+        for (int i=0; i< e.size(); i++)
+        {
+            TempEnemy=e.get(i);
+            if(TempEnemy.getY() > 480)
+            {
+                removeEnemy(TempEnemy);
+            }
+            TempEnemy.tick();
+        }
+
     }
 
     public void  render(Graphics g)
@@ -34,6 +50,11 @@ public class Controller {
         {
             TempBullet=b.get(i);
             TempBullet.render(g);
+        }
+        for (int i=0; i< e.size(); i++)
+        {
+            TempEnemy=e.get(i);
+            TempEnemy.render(g);
         }
     }
 
@@ -48,5 +69,25 @@ public class Controller {
     public int getListSize()
     {
         return b.size();
+    }
+    public void addEnemy(Enemy toAdd)
+    {
+        e.add(toAdd);
+    }
+
+    public void setEnemySpeed(int s)
+    {
+        for(int i=0; i<e.size(); i++)
+        {
+            e.get(i).setSpeed(s);
+        }
+    }
+    public void removeEnemy(Enemy toRemove)
+    {
+        e.remove(toRemove);
+    }
+    public int getEnemyListSize()
+    {
+        return e.size();
     }
 }

@@ -9,17 +9,17 @@ public class Bullet {
     private  double y;
     private int speed;
 
-    BufferedImage image;
+    private Textures tex;
 
-    public  Bullet(double x, double y, App game)
+
+
+    public  Bullet(double x, double y, Textures tex)
     {
         this.x=x;
         this.y=y;
         this.speed=10;
+        this.tex = tex;
 
-        SpriteSheet ss= new SpriteSheet( game.getSpriteSheet());
-
-        image = ss.grabImage(2,1,32,32);
     }
     public void tick()
     {
@@ -28,7 +28,7 @@ public class Bullet {
 
     public  void render(Graphics g)
     {
-        g.drawImage(image, (int)x, (int)y, null );
+        g.drawImage(tex.missile, (int)x, (int)y, null );
     }
     public void setSpeed(int speed)
     {
