@@ -10,8 +10,8 @@ public class ControllerTest extends TestCase {
 
     App game = new App();
     Textures tex;
-    Controller c= new Controller(tex);
-    Controller enemy = new Controller(tex);
+    Controller c= new Controller(tex,game);
+    Controller enemy = new Controller(tex,game);
 
 
     public void testControllerBullet() throws IOException {
@@ -32,7 +32,7 @@ public class ControllerTest extends TestCase {
         game.init();
         for (int i=0; i<10; i++)
         {
-            enemy.addEntity(new Enemy(i,0, tex));
+            enemy.addEntity(new Enemy(i,0, tex,c,game));
         }
         assertEquals(10,enemy.getEntitySize());
     }

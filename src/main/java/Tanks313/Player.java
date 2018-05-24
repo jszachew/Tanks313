@@ -10,6 +10,7 @@ public class Player extends GameObject implements EntityA{
         private  double velX = 0; //velX and vel Y are for smoother movement
         private  double velY = 0;
 
+        Animation anim;
         private BufferedImage player;
 
         private Textures tex;
@@ -18,6 +19,8 @@ public class Player extends GameObject implements EntityA{
         {
             super(x,y);
             this.tex=tex;
+            //                   v-speed of anim
+            anim = new Animation(5, tex.player[0],tex.player[1],tex.player[2]);
 
         }
 
@@ -42,11 +45,12 @@ public class Player extends GameObject implements EntityA{
             {
                 y=(App.HEIGHT*App.SCALE)-80;
             }
+            anim.runAnimation();
         }
 
         public  void render(Graphics g)
         {
-            g.drawImage(tex.player,(int)x,(int)y,null);
+            anim.drawAnimation(g,x,y,0);
 
         }
     public Rectangle getBounds()

@@ -11,6 +11,8 @@ public class Bullet extends GameObject implements EntityA {
     private Textures tex;
     private App game;
 
+    Animation anim;
+
 
 
     public  Bullet(double x, double y, Textures tex, App game)
@@ -19,22 +21,20 @@ public class Bullet extends GameObject implements EntityA {
         this.speed=10;
         this.tex = tex;
         this.game = game;
-
+        anim = new Animation(5,tex.missile[0],tex.missile[1],tex.missile[2]);
     }
     public void tick()
     {
         y-=speed;
 
-        if(Physics.Coliision(this,game.eb))
-        {
-            System.out.println("Collision");
-        }
+
+        anim.runAnimation();
 
     }
 
     public  void render(Graphics g)
     {
-        g.drawImage(tex.missile, (int)x, (int)y, null );
+        anim.drawAnimation(g,x,y,0);
     }
 
     @Override

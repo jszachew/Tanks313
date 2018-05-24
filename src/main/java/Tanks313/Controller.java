@@ -12,11 +12,13 @@ public class Controller {
     EntityB entb;
     Textures tex;
     Random r = new Random();
-    public Controller(Textures tex)
+    private App game;
+    public Controller(Textures tex, App game)
     {
         this.tex=tex;
+        this.game = game;
 
-        addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex));
+        addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex,this,game));
     }
 
     public  void tick()
