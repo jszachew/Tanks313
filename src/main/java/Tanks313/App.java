@@ -37,6 +37,10 @@ public class App extends Canvas implements Runnable
     private int enemy_count=1;
     private int enemy_killed=0;
 
+    public LinkedList<EntityA> ea;
+    public LinkedList<EntityB> eb;
+
+
     public static int STAMINA=200;
     public static int SCORE=0;
     static JFrame frame;
@@ -62,6 +66,9 @@ public class App extends Canvas implements Runnable
 
         p = new Player(200,200,tex);
         c = new Controller(tex);
+
+        ea=c.getEntityA();
+        eb=c.getEntityB();
     }
 
     private void showMenu()
@@ -236,7 +243,7 @@ public class App extends Canvas implements Runnable
         else if(key==KeyEvent.VK_SPACE && !isShooting)
         {
             isShooting = true;
-            c.addEntity(new Bullet(p.getX(),p.getY(),tex));
+            c.addEntity(new Bullet(p.getX(),p.getY(),tex,this));
         }
     }
 

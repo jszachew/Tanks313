@@ -9,19 +9,27 @@ public class Bullet extends GameObject implements EntityA {
     private int speed;
 
     private Textures tex;
+    private App game;
 
 
 
-    public  Bullet(double x, double y, Textures tex)
+    public  Bullet(double x, double y, Textures tex, App game)
     {
         super(x,y);
         this.speed=10;
         this.tex = tex;
+        this.game = game;
 
     }
     public void tick()
     {
         y-=speed;
+
+        if(Physics.Coliision(this,game.eb))
+        {
+            System.out.println("Collision");
+        }
+
     }
 
     public  void render(Graphics g)

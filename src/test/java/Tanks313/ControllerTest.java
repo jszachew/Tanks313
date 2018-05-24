@@ -18,7 +18,7 @@ public class ControllerTest extends TestCase {
         game.init();
         for (int i=0; i<10; i++)
         {
-            c.addEntity(new Bullet(100,300, tex));
+            c.addEntity(new Bullet(100,300, tex,game));
         }
         assertEquals(10,c.getEntitySize());
     }

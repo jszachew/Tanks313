@@ -75,4 +75,12 @@ public class Controller {
     {
         return ea.size();
     }
+
+    public LinkedList<EntityA> getEntityA() {
+        return ea;
+    }
+
+    public LinkedList<EntityB> getEntityB() {
+        return eb;
+    }
 }

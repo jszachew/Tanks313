@@ -1,13 +1,19 @@
 package Tanks313;
 
+
+
 import java.util.LinkedList;
 
 public class Physics {
-    public static boolean Coliision(GameObject go, LinkedList<EntityA> enta)
+
+    public static boolean Coliision(EntityA enta, LinkedList<EntityB> entb)
     {
-        for (int i=0; i <enta.size(); i++)
+        for (int i=0; i <entb.size(); i++)
         {
-            if(go.getBounds(32,32).intersects(enta.get(i).getBounds()));
+            if(enta.getBounds().intersects(entb.get(i).getBounds()))
+            {
+             return true;
+            }
         }
 
 
