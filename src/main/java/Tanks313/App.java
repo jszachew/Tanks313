@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -27,7 +28,7 @@ public class App extends Canvas implements Runnable
     private  Controller c;
     private  Textures tex;
 
-
+    Random r = new Random();
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private BufferedImage background=null;
     private BufferedImage spriteSheet=null;
@@ -60,7 +61,7 @@ public class App extends Canvas implements Runnable
         tex = new Textures(this);
 
         p = new Player(200,200,tex);
-        c= new Controller(this,tex);
+        c = new Controller(tex);
     }
 
     private void showMenu()
@@ -128,6 +129,8 @@ public class App extends Canvas implements Runnable
                 updates++;
                 delta--;
             }
+            if(frames%2550==0)
+                c.addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex));
             render();
             frames++;
             if(System.currentTimeMillis()-timer > 10)
@@ -182,12 +185,7 @@ public class App extends Canvas implements Runnable
 
     public static STATE state=STATE.MENU;
 
-   /* private Player p;
-    private Controller c;
-    private Textures t;
-    public LinkedList<EntityA> ea;
-    public LinkedList<EntityB> eb;
-  */
+
 
    public App()
    {
@@ -238,7 +236,7 @@ public class App extends Canvas implements Runnable
         else if(key==KeyEvent.VK_SPACE && !isShooting)
         {
             isShooting = true;
-            c.addBullet(new Bullet(p.getX(),p.getY(),tex));
+            c.addEntity(new Bullet(p.getX(),p.getY(),tex));
         }
     }
 

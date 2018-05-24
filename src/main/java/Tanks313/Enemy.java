@@ -3,16 +3,15 @@ package Tanks313;
 import java.awt.*;
 import java.security.PublicKey;
 
-public class Enemy {
+public class Enemy extends GameObject implements EntityB {
 
-private  double x,y;
+
 private int speed;
 private Textures tex;
 
 public Enemy(double x, double y, Textures tex)
 {
-    this.x = x;
-    this.y =y;
+    super(x,y);
     this.tex = tex;
     speed =1;
 
@@ -47,5 +46,10 @@ public void render(Graphics g)
 {
 g.drawImage(tex.enemy,(int)x,(int)y, null);
 }
+
+    public Rectangle getBounds()
+    {
+        return new Rectangle ((int)x,(int)y,32,32);
+    }
 
 }

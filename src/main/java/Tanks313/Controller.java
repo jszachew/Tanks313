@@ -1,93 +1,78 @@
 package Tanks313;
 
 import java.awt.*;
-import java.util.LinkedList;
+  import java.util.LinkedList;
+import java.util.Random;
 
 public class Controller {
 
-    private LinkedList<Bullet> b= new LinkedList<Bullet>();
-    private LinkedList<Enemy> e = new LinkedList<Enemy>();
-    Bullet TempBullet;
-    Enemy TempEnemy;
-    App game;
+    private LinkedList<EntityA> ea= new LinkedList<EntityA>();
+    private LinkedList<EntityB> eb= new LinkedList<EntityB>();
+    EntityA enta;
+    EntityB entb;
     Textures tex;
-    public Controller(App game,Textures tex)
+    Random r = new Random();
+    public Controller(Textures tex)
     {
-        this.game=game;
         this.tex=tex;
-        for (int x=0; x<(App.WIDTH * App.SCALE ); x+=64)
-        {
-            addEnemy((new Enemy(x,0,tex)));
-        }
+
+        addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex));
     }
 
     public  void tick()
     {
-         for (int i=0; i< b.size(); i++)
+        for(int i=0; i<ea.size();i++)
         {
-            TempBullet=b.get(i);
-            if(TempBullet.getY() < 0)
-            {
-                removeBullet(TempBullet);
-            }
-            TempBullet.tick();
+            enta = ea.get(i);
+            enta.tick();
         }
-        for (int i=0; i< e.size(); i++)
+
+        for(int i=0; i<eb.size();i++)
         {
-            TempEnemy=e.get(i);
-            if(TempEnemy.getY() > 480)
-            {
-                removeEnemy(TempEnemy);
-            }
-            TempEnemy.tick();
+            entb = eb.get(i);
+            entb.tick();
         }
 
     }
 
     public void  render(Graphics g)
     {
-        for (int i=0; i< b.size(); i++)
+        for(int i=0; i<ea.size();i++)
         {
-            TempBullet=b.get(i);
-            TempBullet.render(g);
+            enta = ea.get(i);
+            enta.render(g);
         }
-        for (int i=0; i< e.size(); i++)
+
+        for(int i=0; i<eb.size();i++)
         {
-            TempEnemy=e.get(i);
-            TempEnemy.render(g);
+            entb = eb.get(i);
+            entb.render(g);
         }
     }
 
-    public void addBullet(Bullet toAdd)
+    public void addEntity(EntityA toAdd)
     {
-        b.add(toAdd);
-    }
-    public void removeBullet(Bullet toRemove)
-    {
-        b.remove(toRemove);
-    }
-    public int getListSize()
-    {
-        return b.size();
-    }
-    public void addEnemy(Enemy toAdd)
-    {
-        e.add(toAdd);
+        ea.add(toAdd);
     }
 
-    public void setEnemySpeed(int s)
+    public void removeEntity(EntityA toRemove)
     {
-        for(int i=0; i<e.size(); i++)
-        {
-            e.get(i).setSpeed(s);
-        }
+        ea.remove(toRemove);
     }
-    public void removeEnemy(Enemy toRemove)
+
+    public void addEntity(EntityB toAdd)
     {
-        e.remove(toRemove);
+        eb.add(toAdd);
     }
-    public int getEnemyListSize()
+
+    public void removeEntity(EntityB toRemove)
     {
-        return e.size();
+        eb.remove(toRemove);
+    }
+
+
+    public int getEntitySize()
+    {
+        return ea.size();
     }
 }

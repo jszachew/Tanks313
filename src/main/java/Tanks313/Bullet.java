@@ -3,10 +3,9 @@ package Tanks313;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
+public class Bullet extends GameObject implements EntityA {
 
-    private double x;
-    private  double y;
+
     private int speed;
 
     private Textures tex;
@@ -15,8 +14,7 @@ public class Bullet {
 
     public  Bullet(double x, double y, Textures tex)
     {
-        this.x=x;
-        this.y=y;
+        super(x,y);
         this.speed=10;
         this.tex = tex;
 
@@ -30,6 +28,12 @@ public class Bullet {
     {
         g.drawImage(tex.missile, (int)x, (int)y, null );
     }
+
+    @Override
+    public double getX() {
+        return x;
+    }
+
     public void setSpeed(int speed)
     {
         this.speed=speed;
@@ -41,6 +45,10 @@ public class Bullet {
     public double getY()
     {
         return y;
+    }
+    public Rectangle getBounds()
+    {
+        return new Rectangle ((int)x,(int)y,32,32);
     }
 
 

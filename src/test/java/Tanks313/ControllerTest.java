@@ -10,35 +10,36 @@ public class ControllerTest extends TestCase {
 
     App game = new App();
     Textures tex;
-    Controller c= new Controller(game,tex);
+    Controller c= new Controller(tex);
+    Controller enemy = new Controller(tex);
 
 
     public void testControllerBullet() throws IOException {
         game.init();
         for (int i=0; i<10; i++)
         {
-            c.addBullet(new Bullet(100,300, tex));
+            c.addEntity(new Bullet(100,300, tex));
         }
-        assertEquals(10,c.getListSize());
+        assertEquals(10,c.getEntitySize());
     }
 
     public void testRemovingBullet() throws InterruptedException {
-
-        assertEquals(0,c.getListSize());
+        wait(100);
+        assertEquals(0,c.getEntitySize());
     }
 
     public void testControllerEnemy() throws IOException {
         game.init();
         for (int i=0; i<10; i++)
         {
-            c.addEnemy(new Enemy(i,0, tex));
+            enemy.addEntity(new Enemy(i,0, tex));
         }
-        assertEquals(10,c.getEnemyListSize());
+        assertEquals(10,enemy.getEntitySize());
     }
 
     public void testRemovingEnemy() throws InterruptedException {
 
-        assertEquals(0,c.getEnemyListSize());
+        assertEquals(0,enemy.getEntitySize());
     }
 
 
