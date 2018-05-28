@@ -75,6 +75,7 @@ public class App extends Canvas implements Runnable
         try
         {
             spriteSheet = loader.loadImage("res/SpriteSheet.png");
+            //whats that?!
             background =loader.loadImage("res/background.png");
             menuSheet = loader.loadImage("res/menuSheet.png");
             theEndSheet = loader.loadImage("res/theEndSheet.png");
