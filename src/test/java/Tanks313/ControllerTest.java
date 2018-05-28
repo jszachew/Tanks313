@@ -20,12 +20,12 @@ public class ControllerTest extends TestCase {
         {
             c.addEntity(new Bullet(100,300, tex,game));
         }
-        assertEquals(10,c.getEntitySize());
+        assertEquals(10,c.getEntityASize());
     }
 
     public void testRemovingBullet() throws InterruptedException {
-        wait(100);
-        assertEquals(0,c.getEntitySize());
+        //wait(100);
+        assertEquals(0,c.getEntityASize());
     }
 
     public void testControllerEnemy() throws IOException {
@@ -34,12 +34,12 @@ public class ControllerTest extends TestCase {
         {
             enemy.addEntity(new Enemy(i,0, tex,c,game));
         }
-        assertEquals(10,enemy.getEntitySize());
+        assertEquals(10,enemy.getEntityBSize());
     }
 
     public void testRemovingEnemy() throws InterruptedException {
 
-        assertEquals(0,enemy.getEntitySize());
+        assertEquals(0,enemy.getEntityBSize());
     }
 
 

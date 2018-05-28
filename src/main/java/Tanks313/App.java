@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ public class App extends Canvas implements Runnable
     private Thread thread;
     private  boolean gameState=false;
     private  boolean menuState=true;
+    public static int diod=0;
 
     private boolean isShooting = false;
 
@@ -28,35 +30,40 @@ public class App extends Canvas implements Runnable
     private  Controller c;
     private  Textures tex;
 
+    DBConnect database = new DBConnect();
+
     Random r = new Random();
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private BufferedImage background=null;
     private BufferedImage menuSheet=null;
     private BufferedImage spriteSheet=null;
-    private BufferedImage menuimg=null;
+    private BufferedImage theEndSheet=null;
     private Menu menu;
+    private TheEnd theEnd;
 
-    private enum STATE
+    public static int HEALTH=200;
+    public static int MAX_HEALTH=200;
+
+    public enum STATE
     {
         MENU,
-        GAME
+        GAME,
+        END
     };
 
-    private STATE State = STATE.MENU;
+    public static STATE State = STATE.MENU; //!!!
 
 
     private int enemy_count=1;
     private int enemy_killed=0;
     static private int level=1; //how much enemies create
     static private int howMuchCreate=2550;
-    static private int points=0;
+    static public int points=0;
 
     public LinkedList<EntityA> ea;
     public LinkedList<EntityB> eb;
 
 
-    public static int STAMINA=200;
-    public static int SCORE=0;
     static JFrame frame;
 
     ////
@@ -70,32 +77,25 @@ public class App extends Canvas implements Runnable
             spriteSheet = loader.loadImage("res/SpriteSheet.png");
             background =loader.loadImage("res/background.png");
             menuSheet = loader.loadImage("res/menuSheet.png");
+            theEndSheet = loader.loadImage("res/theEndSheet.png");
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
         addKeyListener(new KeyInput(this));
+        this.addMouseListener(new MouseInput());
 
         tex = new Textures(this);
-
-        p = new Player(200,200,tex);
         c = new Controller(tex,this);
+        p = new Player(200,200,tex,this,c);
+
+        menu=new Menu();
+        theEnd=new TheEnd();
 
         ea=c.getEntityA();
         eb=c.getEntityB();
     }
-
-    private void showMenu()
-    {
-        running=false;
-        gameState=false;
-        menuState=true;
-        Menu menu = new Menu();
-        menu.render(frame);
-        return;
-    }
-
 
 
     private  synchronized void  start()
@@ -147,7 +147,11 @@ public class App extends Canvas implements Runnable
             lastTime = now;
             if(delta >1 )
             {
-                tick();
+                try {
+                    tick();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 updates++;
                 delta--;
             }
@@ -162,6 +166,8 @@ public class App extends Canvas implements Runnable
                 updates=0;
                 frames=0;
             }
+
+
         }
 
         try {
@@ -172,28 +178,42 @@ public class App extends Canvas implements Runnable
 
     }
 
-    private void tick() {
+
+    private void tick() throws SQLException {
 
         if (State == STATE.GAME)
         {
             p.tick();
             c.tick();
-
+            if(HEALTH <= 0)
+            {
+                HEALTH = 200;
+                MAX_HEALTH = 200;
+                theEnd.setPoints();
+                points=0;
+                 enemy_killed=0;
+                 level=1; //how much enemies create
+                 howMuchCreate=2550;
+                 database.addResult(5);
+                State =STATE.END;
+            }
         }
-
 
     if(enemy_killed > 10)
     {
         level++;
+        Enemy.setSpeed(level);
+
         if(howMuchCreate>=510)
         {
             howMuchCreate-=200;
         }
         else howMuchCreate=200;
-        points+=enemy_killed;
         System.out.println("Level: "+level);
         enemy_killed=0;
+
     }
+
 
     }
 
@@ -206,6 +226,8 @@ public class App extends Canvas implements Runnable
             return;
         }
 
+        diod++;
+
         Graphics g = bs.getDrawGraphics();
         ///////////////
 
@@ -213,6 +235,15 @@ public class App extends Canvas implements Runnable
         if(State == STATE.MENU)
         {
             g.drawImage(menuSheet,0,0,null);
+            menu.render(g);
+            c.clearEnemies();
+        }
+
+        if(State == STATE.END)
+        {
+            g.drawImage(theEndSheet,0,0,null);
+            theEnd.render(g);
+            c.clearEnemies();
         }
 
         if(State == STATE.GAME)
@@ -220,11 +251,40 @@ public class App extends Canvas implements Runnable
             g.drawImage(background,0,0,null);
             p.render(g);
             c.render(g);
+
+            g.setColor(Color.GRAY);
+            g.fillRect(5,5 ,MAX_HEALTH,20);
+
+            g.setColor(Color.orange);
+            g.fillRect(5,5 ,HEALTH,20);
+
+            g.setColor(Color.WHITE);
+            g.drawRect(5,5 ,MAX_HEALTH,20);
+
+
+            if(HEALTH >= 30)
+            {
+                Font fnt0 = new Font("arial",Font.PLAIN ,15);
+                g.setFont(fnt0);
+                g.setColor(Color.black);
+                g.drawString("STAMINA",20,20);
+
+            }
+            else
+            {
+                Font fnt0 = new Font("arial",Font.BOLD ,15);
+                g.setFont(fnt0);
+                g.setColor(Color.RED);
+
+                g.drawString("STAMINA",20,20);
+            }
+
+            Font fnt0 = new Font("arial",Font.BOLD ,25);
+            g.setFont(fnt0);
+            g.setColor(Color.DARK_GRAY);
+            g.drawString("POINTS: "+ String.valueOf(points) + " LEVEL: " + String.valueOf(level),5,(HEIGHT-20)*2);
+
         }
-
-
-
-
 
         //////////////
         g.dispose();
@@ -234,6 +294,7 @@ public class App extends Canvas implements Runnable
 
     public void setEnemy_killed(int enemy_killed) {
         this.enemy_killed = enemy_killed;
+        points +=enemy_killed;
     }
 
     public int getEnemy_killed() {

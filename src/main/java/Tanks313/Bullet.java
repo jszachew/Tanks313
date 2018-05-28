@@ -21,13 +21,20 @@ public class Bullet extends GameObject implements EntityA {
         this.speed=10;
         this.tex = tex;
         this.game = game;
-        anim = new Animation(5,tex.missile[0],tex.missile[1],tex.missile[2]);
+
+        try
+        {
+            anim = new Animation(5,tex.missile[0],tex.missile[1],tex.missile[2]);
+        }
+       catch (Exception e)
+       {
+          // e.printStackTrace();
+       }
+
     }
     public void tick()
     {
         y-=speed;
-
-
         anim.runAnimation();
 
     }

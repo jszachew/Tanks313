@@ -3,31 +3,38 @@ package Tanks313;
 
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Physics {
 
-    public static boolean Coliision(EntityA enta, LinkedList<EntityB> entb)
+   // private static Random random;
+   // private Random random = new Random();
+    static Bonus bonus = new Bonus();
+
+
+    public static boolean Coliision(EntityA enta, EntityB entb)
     {
-        for (int i=0; i <entb.size(); i++)
-        {
-            if(enta.getBounds().intersects(entb.get(i).getBounds()))
+
+            if(enta.getBounds().intersects(entb.getBounds()))
             {
+                App.points-=5;
              return true;
+
             }
-        }
 
         return false;
     }
 
-    public static boolean Coliision(EntityB entb, LinkedList<EntityA> enta)
+    public static boolean Coliision(EntityB entb, EntityA enta)
     {
-        for (int i=0; i <enta.size(); i++)
-        {
-            if(entb.getBounds().intersects(enta.get(i).getBounds()))
+
+            if(entb.getBounds().intersects(enta.getBounds()))
             {
+
+                bonus.setBonus();
                 return true;
             }
-        }
+
 
         return false;
     }

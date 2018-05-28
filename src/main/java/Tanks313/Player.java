@@ -9,16 +9,20 @@ public class Player extends GameObject implements EntityA{
 
         private  double velX = 0; //velX and vel Y are for smoother movement
         private  double velY = 0;
+         Controller controller;
+         App game;
 
         Animation anim;
         private BufferedImage player;
 
         private Textures tex;
 
-        public Player(double x, double y,Textures tex)
+        public Player(double x, double y,Textures tex, App game, Controller controller)
         {
             super(x,y);
             this.tex=tex;
+            this.controller = controller;
+            this.game = game;
             //                   v-speed of anim
             anim = new Animation(5, tex.player[0],tex.player[1],tex.player[2]);
 
@@ -45,6 +49,17 @@ public class Player extends GameObject implements EntityA{
             {
                 y=(App.HEIGHT*App.SCALE)-80;
             }
+
+            for (int i=0 ; i<game.eb.size(); i++)
+            {
+                EntityB tempEnt = game.eb.get(i);
+                if (Physics.Coliision(this,tempEnt))
+                {
+                   controller.removeEntity(tempEnt);
+                   App.HEALTH-=10;
+                }
+            }
+
             anim.runAnimation();
         }
 

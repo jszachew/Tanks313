@@ -18,7 +18,7 @@ public class Controller {
         this.tex=tex;
         this.game = game;
 
-        addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex,this,game));
+       // addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex,this,game));
     }
 
     public  void tick()
@@ -33,6 +33,7 @@ public class Controller {
         {
             entb = eb.get(i);
             entb.tick();
+
         }
 
     }
@@ -57,6 +58,14 @@ public class Controller {
         ea.add(toAdd);
     }
 
+   public void clearEnemies()
+   {
+       for(int i=0; i<eb.size();i++)
+       {
+           eb.remove(eb.get(i));
+       }
+   }
+
     public void removeEntity(EntityA toRemove)
     {
         ea.remove(toRemove);
@@ -73,7 +82,12 @@ public class Controller {
     }
 
 
-    public int getEntitySize()
+    public int getEntityBSize()
+    {
+        return eb.size();
+    }
+
+    public int getEntityASize()
     {
         return ea.size();
     }
