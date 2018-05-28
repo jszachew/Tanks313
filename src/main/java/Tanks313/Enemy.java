@@ -1,7 +1,6 @@
 package Tanks313;
 
 import java.awt.*;
-import java.security.PublicKey;
 
 public class Enemy extends GameObject implements EntityB {
 
@@ -46,6 +45,16 @@ public void tick()
 
         }
     }
+
+    if(y>(App.getHEIGHT()-20)*2)
+    {
+        App.addHealth(-10);
+        App.addPOINTS(-3);
+        c.removeEntity(this);
+    }
+
+
+
     anim.runAnimation();
 
     if(App.State != App.STATE.GAME)

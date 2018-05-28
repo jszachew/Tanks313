@@ -13,31 +13,27 @@ public class Bonus {
         int setBonus= random();
         if(setBonus>=0 && setBonus <7)
         {
-            if(App.HEALTH+50<=App.MAX_HEALTH)
+            if(App.getHEALTH()+50<=App.getMAX_HEALTH())
             {
-                App.HEALTH+=50;
+                App.addHealth(50);
                 inProgress=true;
             }
-            else
-            {
-                App.HEALTH=App.MAX_HEALTH;
-                inProgress=true;
-            }
+
         }
 
         if(setBonus>=7 && setBonus<=9)
         {
-            if(App.MAX_HEALTH<=500)
+            if(App.getMAX_HEALTH()<=500)
             {
-                App.MAX_HEALTH+=50;
+                App.setMaxHealth(50);
                 inProgress=true;
             }
         }
         if(setBonus>9 && setBonus<=11)
         {
-            if(App.HEALTH<=App.MAX_HEALTH)
+            if(App.getHEALTH()<=App.getMAX_HEALTH())
             {
-                App.HEALTH=App.MAX_HEALTH;
+                App.setHEALTH(App.getMAX_HEALTH());
                 inProgress=true;
             }
         }

@@ -1,5 +1,6 @@
 package Tanks313;
 
+import java.net.InetAddress;
 import java.sql.*;
 
 public class DBConnect {
@@ -8,6 +9,7 @@ public class DBConnect {
     public  Statement st;
     public ResultSet rs;
     private static int nQuery=0;
+    private String computerName;
     //private Controller controller;
 
     public DBConnect ()
@@ -16,6 +18,8 @@ public class DBConnect {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/tanks313","root","");
             st = con.createStatement();
+            computerName= InetAddress.getLocalHost().getHostName();
+            System.out.println(computerName);
         }
         catch (Exception ex)
         {
@@ -40,8 +44,8 @@ public class DBConnect {
         return rs;
     }
 
-    public void addResult(int Points) throws SQLException {
-       String query=  "INSERT INTO Stats (Points) VALUES (\"" +Points +"\");";
+    public void addResult(int Points, int Level) throws SQLException {
+       String query=  "INSERT INTO Stats (Name,Points, Level) VALUES ("+ "\"" + computerName+ "\"," +Points + "," +Level +  ");";
        System.out.println(query);
        addToDB(query);
     }

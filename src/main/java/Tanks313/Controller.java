@@ -18,7 +18,6 @@ public class Controller {
         this.tex=tex;
         this.game = game;
 
-       // addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex,this,game));
     }
 
     public  void tick()

@@ -14,9 +14,9 @@ import java.util.Date;
 
 public class Menu  {
 
-    public Rectangle playButton = new Rectangle(App.WIDTH+180,50,100,50);
-    public Rectangle databaseButton = new Rectangle(App.WIDTH+180,150,100,50);
-    public Rectangle quitButon = new Rectangle(App.WIDTH+180,250,100,50);
+    public Rectangle playButton = new Rectangle(App.getWIDTH()+180,50,100,50);
+    public Rectangle databaseButton = new Rectangle(App.getWIDTH()+180,150,100,50);
+    public Rectangle quitButon = new Rectangle(App.getWIDTH()+180,250,100,50);
 
     public void render(Graphics g)
     {
@@ -25,7 +25,7 @@ public class Menu  {
         Font fnt0 = new Font("arial",Font.BOLD,50);
         g.setFont(fnt0);
         g.setColor(Color.WHITE);
-        g.drawString("TANKS313", App.WIDTH+50, App.HEIGHT+170);
+        g.drawString("TANKS313", App.getWIDTH()+50, App.getWIDTH()+170);
 
         Font fnt1= new Font("arial",Font.BOLD,30);
         Font fnt2= new Font("arial",Font.BOLD,25);

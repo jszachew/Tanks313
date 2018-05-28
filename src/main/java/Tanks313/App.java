@@ -56,9 +56,9 @@ public class App extends Canvas implements Runnable
 
     private int enemy_count=1;
     private int enemy_killed=0;
-    static private int level=1; //how much enemies create
-    static private int howMuchCreate=2550;
-    static public int points=0;
+    static private int LEVEL =1; //how much enemies create
+    private int howMuchCreate=2550;
+    static public int POINTS =0;
 
     public LinkedList<EntityA> ea;
     public LinkedList<EntityB> eb;
@@ -75,7 +75,6 @@ public class App extends Canvas implements Runnable
         try
         {
             spriteSheet = loader.loadImage("res/SpriteSheet.png");
-            //whats that?!
             background =loader.loadImage("res/background.png");
             menuSheet = loader.loadImage("res/menuSheet.png");
             theEndSheet = loader.loadImage("res/theEndSheet.png");
@@ -157,7 +156,7 @@ public class App extends Canvas implements Runnable
                 delta--;
             }
             if(frames%howMuchCreate==0)
-                c.addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),0,tex,c,this));
+                c.addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),-150,tex,c,this));
             render();
             frames++;
             if(System.currentTimeMillis()-timer > 10)
@@ -188,29 +187,40 @@ public class App extends Canvas implements Runnable
             c.tick();
             if(HEALTH <= 0)
             {
+                database.addResult(POINTS, LEVEL);
                 HEALTH = 200;
                 MAX_HEALTH = 200;
                 theEnd.setPoints();
-                points=0;
+                POINTS =0;
                  enemy_killed=0;
-                 level=1; //how much enemies create
+                 LEVEL =1; //how much enemies create
                  howMuchCreate=2550;
-                 database.addResult(5);
+
+
+
                 State =STATE.END;
             }
         }
 
     if(enemy_killed > 10)
     {
-        level++;
-        Enemy.setSpeed(level);
+        LEVEL++;
+
+        if(LEVEL <=5)
+        {
+            Enemy.setSpeed(LEVEL);
+        }
+        else
+            Enemy.setSpeed(5);
+
 
         if(howMuchCreate>=510)
         {
             howMuchCreate-=200;
         }
         else howMuchCreate=200;
-        System.out.println("Level: "+level);
+
+        System.out.println("Level: "+ LEVEL);
         enemy_killed=0;
 
     }
@@ -283,7 +293,7 @@ public class App extends Canvas implements Runnable
             Font fnt0 = new Font("arial",Font.BOLD ,25);
             g.setFont(fnt0);
             g.setColor(Color.DARK_GRAY);
-            g.drawString("POINTS: "+ String.valueOf(points) + " LEVEL: " + String.valueOf(level),5,(HEIGHT-20)*2);
+            g.drawString("POINTS: "+ String.valueOf(POINTS) + " LEVEL: " + String.valueOf(LEVEL),5,(HEIGHT-20)*2);
 
         }
 
@@ -295,16 +305,12 @@ public class App extends Canvas implements Runnable
 
     public void setEnemy_killed(int enemy_killed) {
         this.enemy_killed = enemy_killed;
-        points +=enemy_killed;
+        POINTS +=enemy_killed;
     }
 
     public int getEnemy_killed() {
         return enemy_killed;
     }
-
-
-
-
 
 
 
@@ -390,6 +396,76 @@ public class App extends Canvas implements Runnable
             isShooting=false;
         }
 
+    }
+
+    public static void setPOINTS(int toAdd)
+    {
+        POINTS = toAdd;
+    }
+
+    public static int getHEALTH()
+    {
+        return HEALTH;
+    }
+
+    public static int getMAX_HEALTH()
+    {
+        return MAX_HEALTH;
+    }
+
+    public static void addHealth(int toAdd)
+    {
+        if(HEALTH+toAdd>0)
+        {
+            HEALTH+=toAdd;
+        }
+        else
+        {
+            HEALTH=0;
+        }
+
+    }
+
+    public static void setMaxHealth(int toAdd)
+    {
+        App.MAX_HEALTH+=toAdd;
+    }
+
+    public static void setHEALTH(int health)
+    {
+        HEALTH = health;
+    }
+
+    public static int getHEIGHT()
+    {
+        return HEIGHT;
+    }
+
+    public static int getWIDTH()
+    {
+        return WIDTH;
+    }
+
+    public static int getPOINTS()
+    {
+        return POINTS;
+    }
+
+    public static void addPOINTS(int toAdd)
+    {
+        if(POINTS +toAdd>0)
+        {
+            POINTS +=toAdd;
+        }
+        else
+        {
+            POINTS =0;
+        }
+    }
+
+    public static int getSCALE()
+    {
+        return SCALE;
     }
 
 }

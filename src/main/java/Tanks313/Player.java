@@ -37,17 +37,17 @@ public class Player extends GameObject implements EntityA{
             {
                 x=0;
             }
-            if(x>=(App.WIDTH*App.SCALE)-32)
+            if(x>=(App.getWIDTH()*App.getSCALE())-32)
             {
-                x=(App.WIDTH*App.SCALE)-32;
+                x=(App.getWIDTH()*App.getSCALE())-32;
             }
             if(y<=0)
             {
                 y=0;
             }
-            if(y>=(App.HEIGHT*App.SCALE)-80)
+            if(y>=(App.getHEIGHT()*App.getSCALE())-80)
             {
-                y=(App.HEIGHT*App.SCALE)-80;
+                y=(App.getHEIGHT()*App.getSCALE())-80;
             }
 
             for (int i=0 ; i<game.eb.size(); i++)
@@ -56,7 +56,15 @@ public class Player extends GameObject implements EntityA{
                 if (Physics.Coliision(this,tempEnt))
                 {
                    controller.removeEntity(tempEnt);
-                   App.HEALTH-=10;
+                   if(App.getHEALTH()-10<0)
+                   {
+                       App.setHEALTH(0);
+                   }
+                   else
+                   {
+                       App.addHealth(-10);
+                   }
+
                 }
             }
 

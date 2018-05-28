@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class TheEnd {
 
-    public Rectangle playButton = new Rectangle(App.WIDTH+70,50,100,50);
-    public Rectangle quitButon = new Rectangle(App.WIDTH+70,150,100,50);
+    public Rectangle playButton = new Rectangle(App.getWIDTH()+70,50,100,50);
+    public Rectangle quitButon = new Rectangle(App.getWIDTH()+70,150,100,50);
     private int points=15;
 
     public void render(Graphics g)
@@ -14,7 +14,7 @@ public class TheEnd {
         String m=String.valueOf(points);
 
         Font fnt1= new Font("arial",Font.BOLD,30);
-        Font fnt3= new Font("arial",Font.BOLD,80);
+        Font fnt3= new Font("arial",Font.BOLD,100);
 
         g.setFont(fnt1);
         g.drawString("MENU",playButton.x+5, playButton.y+35);
@@ -29,6 +29,6 @@ public class TheEnd {
     }
 
     public void setPoints() {
-        points=App.points;
+        points=App.getPOINTS();
     }
 }

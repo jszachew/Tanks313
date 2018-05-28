@@ -2,9 +2,12 @@ package Tanks313;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.Desktop;
+import java.net.URI;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 
 public class MouseInput implements MouseListener{
     @Override
@@ -17,14 +20,9 @@ public class MouseInput implements MouseListener{
 
         int mx=e.getX();
         int my=e.getY();
-        /*
-    public Rectangle playButton = new Rectangle(App.WIDTH+180,50,100,50);
-    public Rectangle databaseButton = new Rectangle(App.WIDTH+180,150,100,50);
-    public Rectangle quitButon = new Rectangle(App.WIDTH+180,250,100,50);
-         */
 
         //PLAY
-        if(mx>=App.WIDTH+180 && mx<= App.WIDTH+280 && App.State== App.STATE.MENU)
+        if(mx>=App.getWIDTH()+180 && mx<= App.getWIDTH()+280 && App.State== App.STATE.MENU)
         {
             if(my>=50 && my<=100)
             {
@@ -35,11 +33,18 @@ public class MouseInput implements MouseListener{
 
 
 
-         if(mx>=App.WIDTH+180 && mx<= App.WIDTH+280 && App.State== App.STATE.MENU)
+         if(mx>=App.getWIDTH()+180 && mx<= App.getWIDTH()+280 && App.State== App.STATE.MENU)
         {
             if(my>=150 && my<=200)
             {
-                App.State=App.STATE.GAME;
+                Desktop d= Desktop.getDesktop();
+                try {
+                    d.browse(new URI("http://localhost/show.php"));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
 
             }
 
@@ -47,10 +52,8 @@ public class MouseInput implements MouseListener{
 
 
 
-
-
         //PLAY
-        if(mx>=App.WIDTH+180 && mx<= App.WIDTH+280 && App.State== App.STATE.MENU)
+        if(mx>=App.getWIDTH()+180 && mx<= App.getWIDTH()+280 && App.State== App.STATE.MENU)
         {
             if(my>=250 && my<=300)
             {
@@ -58,7 +61,7 @@ public class MouseInput implements MouseListener{
             }
         }
 
-        if(mx>=App.WIDTH+70 && mx<= App.WIDTH+120 && App.State== App.STATE.END)
+        if(mx>=App.getWIDTH()+70 && mx<= App.getWIDTH()+120 && App.State== App.STATE.END)
         {
             if(my>=50 && my<=100)
             {
@@ -67,7 +70,7 @@ public class MouseInput implements MouseListener{
             }
 
         }
-        if(mx>=App.WIDTH+70 && mx<= App.WIDTH+120 && App.State== App.STATE.END)
+        if(mx>=App.getWIDTH()+70 && mx<= App.getWIDTH()+120 && App.State== App.STATE.END)
         {
             if(my>=150 && my<=200)
             {

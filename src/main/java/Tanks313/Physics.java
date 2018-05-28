@@ -1,10 +1,6 @@
 package Tanks313;
 
 
-
-import java.util.LinkedList;
-import java.util.Random;
-
 public class Physics {
 
    // private static Random random;
@@ -17,7 +13,15 @@ public class Physics {
 
             if(enta.getBounds().intersects(entb.getBounds()))
             {
-                App.points-=5;
+                if(App.getPOINTS() -5<0)
+                {
+                    App.setPOINTS(0);
+                }
+                else
+                {
+                    App.addPOINTS(-5);
+                }
+
              return true;
 
             }
