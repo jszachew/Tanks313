@@ -35,7 +35,7 @@ public class DBConnect {
 
 
 /*
-* Contructors only try get connection with
+* Constructors only try get connection with
 * our database
  */
     public DBConnect ()
@@ -57,7 +57,7 @@ public class DBConnect {
     * At the end of game main App class
     * call addResult with game restult.
     * Name of player is set in constructor class
-    * and it is the compuer name
+    * and it is the computer name
     * Date is added by database trigger to avoid time zones
      */
 

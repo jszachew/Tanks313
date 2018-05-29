@@ -2,8 +2,19 @@ package Tanks313;
 
 import java.awt.image.BufferedImage;
 
+/*
+* This class is for setting textures for every object
+* from .png file
+* Every texture is rectangle 32x32 pixels
+* in /res/SpriteSheet.png
+* All movable classes gas got three textures for
+* animation
+ */
+
 public class Textures {
+
     private SpriteSheet ss;
+
     public BufferedImage[] player= new BufferedImage[3];
     public BufferedImage[] missile= new BufferedImage[3];
     public BufferedImage[] enemy= new BufferedImage[3];
@@ -14,6 +25,11 @@ public class Textures {
       getTextures();
     }
 
+    /*
+    * For every movable class it takes 3
+    * textures from SpriteSheet.
+    * Every class has own column.
+     */
     private void getTextures()
     {
         player[0] = ss.grabImage(1,1,32,32);

@@ -3,6 +3,9 @@ package Tanks313;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/*
+* Conntects App class with keyboard
+ */
 
 public class KeyInput extends KeyAdapter {
 

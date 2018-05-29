@@ -37,6 +37,14 @@ public class Bullet extends GameObject implements EntityA {
        }
 
     }
+
+    /*
+    * Every bullet in every tick goes upwards by speed pixels.
+    *
+    * Collision is not implemened there because it is implementad in
+    * Enemy class. If bullet hits Enemy it means the same as
+    * Enemy hits the bullet
+     */
     public void tick()
     {
         y-=speed;
@@ -58,14 +66,17 @@ public class Bullet extends GameObject implements EntityA {
     {
         this.speed=speed;
     }
+
     public int getSpeed()
     {
         return speed;
     }
+
     public double getY()
     {
         return y;
     }
+
     public Rectangle getBounds()
     {
         return new Rectangle ((int)x,(int)y,32,32);

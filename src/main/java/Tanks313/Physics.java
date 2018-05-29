@@ -1,12 +1,26 @@
 package Tanks313;
 
+/*
+* Main class implementing collisions.
+* In every tick App checks if there is collision
+* between objects from EntityA and EntityB
+*
+* If EntityB intesects in EntityA it means
+* that Enemy is shooten
+*
+* If EntityA intesects in EntityB it means
+* that Player crashes with Enemie
+ */
 
 public class Physics {
 
-   // private static Random random;
-   // private Random random = new Random();
     static Bonus bonus = new Bonus();
 
+    /*
+    * We don't need to think who intersects on who
+    * because methods Collision is reloaded, so it
+    * adapts itself automatically- clever!
+     */
 
     public static boolean Coliision(EntityA enta, EntityB entb)
     {
@@ -31,10 +45,8 @@ public class Physics {
 
     public static boolean Coliision(EntityB entb, EntityA enta)
     {
-
             if(entb.getBounds().intersects(enta.getBounds()))
             {
-
                 bonus.setBonus();
                 return true;
             }

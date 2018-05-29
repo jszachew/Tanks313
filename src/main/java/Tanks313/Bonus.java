@@ -3,7 +3,8 @@ package Tanks313;
 import java.util.Random;
 
 /*
-* This class if for generating random bonuses for player
+* This class is for generating random bonuses for player
+* after killing Enemy
 * 7%- extra 50 points of stamina
 * 3%- extra 50 to max stamina
 * 1%- regenetion all stamina

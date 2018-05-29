@@ -3,6 +3,11 @@ package Tanks313;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/*
+* First argument of constructor sets speed of animation
+* next are for textures
+ */
+
 public class Animation {
 
     private int speed;

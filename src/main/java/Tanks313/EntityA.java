@@ -13,10 +13,10 @@ import java.awt.*;
 
 public interface EntityA {
 
-    public void tick();
-    public void render(Graphics g);
-    public Rectangle getBounds();
+    void tick();
+    void render(Graphics g);
+    Rectangle getBounds();
 
-    public double getX();
-    public double getY();
+    double getX();
+    double getY();
 }

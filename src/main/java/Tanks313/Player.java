@@ -3,14 +3,24 @@ package Tanks313;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/*
+* Main class implementing player movement and its phisics
+* It also check if player is not going out of bounds
+* or crashes with Ememies
+ */
+
 public class Player extends GameObject implements EntityA{
 
-
-
+    /*
+    * By using velX and velY movement is a lot smoother
+    * than with only x and y. There is no 1 second delay
+    * after pressing key
+     */
         private  double velX = 0; //velX and vel Y are for smoother movement
         private  double velY = 0;
-         Controller controller;
-         App game;
+
+        Controller controller;
+        App game;
 
         Animation anim;
         private BufferedImage player;
@@ -23,7 +33,7 @@ public class Player extends GameObject implements EntityA{
             this.tex=tex;
             this.controller = controller;
             this.game = game;
-            //                   v-speed of anim
+
             anim = new Animation(5, tex.player[0],tex.player[1],tex.player[2]);
 
         }

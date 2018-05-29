@@ -12,8 +12,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+/*
+* Shows only buttons: PLAY, SCORE, EXIT
+* Main controll in MouseInput
+ */
+
 public class Menu  {
 
+    /*
+    * Rectangles for the buttons
+     */
     public Rectangle playButton = new Rectangle(App.getWIDTH()+180,50,100,50);
     public Rectangle databaseButton = new Rectangle(App.getWIDTH()+180,150,100,50);
     public Rectangle quitButon = new Rectangle(App.getWIDTH()+180,250,100,50);
@@ -25,6 +33,10 @@ public class Menu  {
         Font fnt0 = new Font("arial",Font.BOLD,50);
         g.setFont(fnt0);
         g.setColor(Color.WHITE);
+
+        /*
+        * Game title on the bottom of window
+         */
         g.drawString("TANKS313", App.getWIDTH()+50, App.getWIDTH()+170);
 
         Font fnt1= new Font("arial",Font.BOLD,30);
