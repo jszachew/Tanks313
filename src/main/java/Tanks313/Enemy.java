@@ -1,12 +1,14 @@
 package Tanks313;
 
 import java.awt.*;
+import javax.xml.bind.annotation.*;
 
 /*
 *Enemies class is in EntityB, so can
 * collide with Player class and Bullet class
  */
 
+@XmlRootElement(name="Enemy")
 public class Enemy extends GameObject implements EntityB {
 
 static public int speed=1;

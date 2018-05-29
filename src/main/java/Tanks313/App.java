@@ -10,40 +10,65 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+/*
+* Main application class
+* All mechanics and connections are used there.
+ */
+
 public class App extends Canvas implements Runnable
 {
+    /*
+    * Sets default sizes of game frame
+     */
     private static final long serialVersionUID=1L;
-    public static final int WIDTH=320;
-    public static final int HEIGHT=WIDTH/12*9;
-    public static final int SCALE=2;
-    public static String TITLE="TANKS.game";
+    private static final int WIDTH=320;
+    private static final int HEIGHT=WIDTH/12*9;
+    private static final int SCALE=2;
+    private static String TITLE="TANKS.game";
+
 
     private boolean running=false;
     private Thread thread;
-    private  boolean gameState=false;
-    private  boolean menuState=true;
-    public static int diod=0;
 
+    /*
+    * isShooting added to avoid fire like in
+    * machine gun.
+    * Every shoot is new spacebar click
+     */
     private boolean isShooting = false;
 
     private Player p;
     private  Controller c;
     private  Textures tex;
 
-    DBConnect database = new DBConnect();
+    /*
+    * Making connection with our database
+     */
+    private DBConnect database = new DBConnect();
 
-    Random r = new Random();
+    private Random r = new Random();
+
     private BufferedImage image =new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
     private BufferedImage background=null;
     private BufferedImage menuSheet=null;
     private BufferedImage spriteSheet=null;
     private BufferedImage theEndSheet=null;
+
+    /*
+    * Variables of menu and end of the game state
+     */
     private Menu menu;
     private TheEnd theEnd;
 
-    public static int HEALTH=200;
-    public static int MAX_HEALTH=200;
+    /*
+    * static variables for the stamina
+     */
+    private static int HEALTH=200;
+    private static int MAX_HEALTH=200;
 
+    /*
+    * In which state the App is
+     */
     public enum STATE
     {
         MENU,
@@ -51,26 +76,38 @@ public class App extends Canvas implements Runnable
         END
     };
 
-    public static STATE State = STATE.MENU; //!!!
+    /*
+    * Game starts in menu state
+     */
+    public static STATE State = STATE.MENU;
 
-
-    private int enemy_count=1;
+    /*
+    * Every level up increses number of Enemies
+     */
     private int enemy_killed=0;
     static private int LEVEL =1; //how much enemies create
     private int howMuchCreate=2550;
-    static public int POINTS =0;
+    private static int POINTS =0;
 
     public LinkedList<EntityA> ea;
-    public LinkedList<EntityB> eb;
+    LinkedList<EntityB> eb;
 
 
     static JFrame frame;
 
-    ////
     private BufferedImage player;
 
     public void init() throws IOException {
-        requestFocus(); //don t need to click on the window
+
+        /*
+        * Dont need to click on the window
+         */
+        requestFocus();
+
+
+        /*
+        * try to load backgrounds and textures
+         */
         BufferedImageLoader loader = new BufferedImageLoader();
         try
         {
@@ -83,16 +120,30 @@ public class App extends Canvas implements Runnable
         {
             e.printStackTrace();
         }
+
+        /*
+        * Add mouse input
+         */
         addKeyListener(new KeyInput(this));
         this.addMouseListener(new MouseInput());
 
+        /*
+        * Making textures and new game controller
+         */
         tex = new Textures(this);
         c = new Controller(tex,this);
+
+        /*
+        * Setting player in 200, 200 using controller c
+         */
         p = new Player(200,200,tex,this,c);
 
         menu=new Menu();
         theEnd=new TheEnd();
 
+        /*
+        * Setting ea and eb from game controller
+         */
         ea=c.getEntityA();
         eb=c.getEntityB();
     }
@@ -100,8 +151,7 @@ public class App extends Canvas implements Runnable
 
     private  synchronized void  start()
     {
-        menuState=false;
-        gameState=true;
+
         if (running)
             return;
 
@@ -117,8 +167,7 @@ public class App extends Canvas implements Runnable
         running=false;
         try {
             thread.join();
-            gameState=false;
-            menuState=true;
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -155,8 +204,17 @@ public class App extends Canvas implements Runnable
                 updates++;
                 delta--;
             }
+
+            /*
+            * Creating enemies
+             */
             if(frames%howMuchCreate==0)
+            {
                 c.addEntity(new Enemy(r.nextInt(App.WIDTH*App.SCALE),-150,tex,c,this));
+                EnemyJAXB enm= new EnemyJAXB();
+               // enm.marshall();
+            }
+
             render();
             frames++;
             if(System.currentTimeMillis()-timer > 10)
@@ -185,6 +243,11 @@ public class App extends Canvas implements Runnable
         {
             p.tick();
             c.tick();
+
+            /*
+            * if player has no stamina game state is END
+            * and static variables are in their statring possition
+             */
             if(HEALTH <= 0)
             {
                 database.addResult(POINTS, LEVEL);
@@ -192,16 +255,16 @@ public class App extends Canvas implements Runnable
                 MAX_HEALTH = 200;
                 theEnd.setPoints();
                 POINTS =0;
-                 enemy_killed=0;
-                 LEVEL =1; //how much enemies create
-                 howMuchCreate=2550;
-
-
-
+                enemy_killed=0;
+                LEVEL =1; //how much enemies create
+                howMuchCreate=2550;
                 State =STATE.END;
             }
         }
 
+        /*
+        * Making difficult of game after leveling up
+         */
     if(enemy_killed > 10)
     {
         LEVEL++;
@@ -224,10 +287,11 @@ public class App extends Canvas implements Runnable
         enemy_killed=0;
 
     }
-
-
     }
 
+    /*
+    * Rendering Frame in every case (Start, Game, End)
+     */
     private void  render()
     {
         BufferStrategy bs = this.getBufferStrategy();
@@ -237,10 +301,8 @@ public class App extends Canvas implements Runnable
             return;
         }
 
-        diod++;
 
         Graphics g = bs.getDrawGraphics();
-        ///////////////
 
         g.drawImage(image, 0x0, 0x0, getWidth(), getHeight(), this);
         if(State == STATE.MENU)
@@ -297,7 +359,6 @@ public class App extends Canvas implements Runnable
 
         }
 
-        //////////////
         g.dispose();
         bs.show();
 
@@ -325,14 +386,12 @@ public class App extends Canvas implements Runnable
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        frame.setResizable(false);
        frame.setVisible(true);
-
    }
 
    public static void main( String[] args ) throws InterruptedException
    {
             App game = new App();
             final Component add = frame.add(game);
-            /* game.show1Menu(); */
             game.start();
     }
 
@@ -341,6 +400,10 @@ public class App extends Canvas implements Runnable
         return spriteSheet;
     }
 
+    /*
+    * Keyboard input using
+    * More in KeyInput class
+     */
     public  void keyPressed(KeyEvent e)
     {
         int key=e.getKeyCode();
