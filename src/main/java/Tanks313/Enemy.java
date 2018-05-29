@@ -2,14 +2,23 @@ package Tanks313;
 
 import java.awt.*;
 
-public class Enemy extends GameObject implements EntityB {
+/*
+*Enemies class is in EntityB, so can
+* collide with Player class and Bullet class
+ */
 
+public class Enemy extends GameObject implements EntityB {
 
 static public int speed=1;
 private Textures tex;
 private App game;
 Animation anim;
-private Controller c;  //we have to remove enemies from entity
+
+/*
+* Controller is important here-
+* Is used for removing enemies from entity
+ */
+private Controller c;
 
 public Enemy(double x, double y, Textures tex, Controller c, App game)
 {
@@ -18,6 +27,11 @@ public Enemy(double x, double y, Textures tex, Controller c, App game)
 
     this.c=c;
     this.game = game;
+
+/*
+* Try and catch is important here, because JUnit
+* tests dont have to run animation. Just throws Exception
+ */
 
     try
     {
@@ -30,10 +44,18 @@ public Enemy(double x, double y, Textures tex, Controller c, App game)
 
 }
 
+/*
+* Every tick Enemies are going down for "speed"
+* pixels.
+* It also checks if there is collision with any
+* object of EntityA (loop for)
+* After collision object disapears.
+ */
+
 public void tick()
 {
     y+=speed;
-//tempEnt- bullet
+
     for(int i=0; i<game.ea.size(); i++)
     {
         EntityA tempEnt= game.ea.get(i);
@@ -46,6 +68,13 @@ public void tick()
         }
     }
 
+/*
+* If Enemy is out of bounds player get - points
+* and loses some stamina.
+*
+* Enemies are removed from list after disapears
+ */
+
     if(y>(App.getHEIGHT()-20)*2)
     {
         App.addHealth(-10);
@@ -53,9 +82,12 @@ public void tick()
         c.removeEntity(this);
     }
 
-
-
     anim.runAnimation();
+
+    /*
+    * If App is not in game state it doesn't
+    * need to have any enemies
+     */
 
     if(App.State != App.STATE.GAME)
     {
@@ -78,32 +110,33 @@ public void tick()
 }
 
 
-
-public double getY()
+    public double getY()
 {
     return y;
 }
 
-public int getSpeed()
+    public int getSpeed()
 {
     return  speed;
 }
 
-public static void setSpeed(int s)
+    public static void setSpeed(int s)
 {
     speed=s;
 }
 
-public void render(Graphics g)
+    public void render(Graphics g)
 {
 anim.drawAnimation(g,x,y,0);
 }
+
+/*
+* Rectangle getter is important for Collisions
+ */
 
     public Rectangle getBounds()
     {
         return new Rectangle ((int)x,(int)y,32,32);
     }
-
-
 
 }

@@ -2,6 +2,12 @@ package Tanks313;
 
 import java.awt.*;
 
+/*
+* This class has got only information about possition of objects
+* It also returns rectangle of our object-
+* important for collioson and Physics class
+ */
+
 public class GameObject {
 
     public  double x,y;

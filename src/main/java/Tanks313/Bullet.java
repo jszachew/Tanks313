@@ -3,6 +3,11 @@ package Tanks313;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/*
+* this class show how bullet works in game
+* They are in EntityA, so can destory objects in EntityB (Enemies)
+ */
+
 public class Bullet extends GameObject implements EntityA {
 
 
@@ -28,7 +33,7 @@ public class Bullet extends GameObject implements EntityA {
         }
        catch (Exception e)
        {
-          // e.printStackTrace();
+           e.printStackTrace();
        }
 
     }

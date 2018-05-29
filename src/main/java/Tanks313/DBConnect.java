@@ -3,15 +3,41 @@ package Tanks313;
 import java.net.InetAddress;
 import java.sql.*;
 
+/*
+* By this class we can get acces to our scores
+* MySQL database.
+* Server- localhost (easy to change)
+* Database- tanks313
+ */
+
+/*
+* ______________________________________
+*|IdStats| Name | Points | Level | Date |
+*|---------------------------------------
+*|       |      |        |       |      |
+ */
+
 public class DBConnect {
 
     public Connection con;
-    public  Statement st;
+    public Statement st;
     public ResultSet rs;
-    private static int nQuery=0;
-    private String computerName;
-    //private Controller controller;
 
+/*
+* By counting queries we can avoid DDoS attacks
+ */
+    private static int nQuery=0;
+
+/*
+* Player name is the player's computer name
+*/
+    private String computerName;
+
+
+/*
+* Contructors only try get connection with
+* our database
+ */
     public DBConnect ()
     {
         try {
@@ -27,30 +53,26 @@ public class DBConnect {
         }
     }
 
-    public ResultSet getData(String table)
-    {
-        try
-        {
-            String query = "select * from "+ table;
-            rs= st.executeQuery(query);
-            nQuery++;
-            System.out.println(nQuery + " query made");
-            return rs;
-        }
-        catch (Exception ex)
-        {
-            System.out.println("err:" + ex);
-        }
-        return rs;
-    }
+    /*
+    * At the end of game main App class
+    * call addResult with game restult.
+    * Name of player is set in constructor class
+    * and it is the compuer name
+    * Date is added by database trigger to avoid time zones
+     */
 
     public void addResult(int Points, int Level) throws SQLException {
+
        String query=  "INSERT INTO Stats (Name,Points, Level) VALUES ("+ "\"" + computerName+ "\"," +Points + "," +Level +  ");";
        System.out.println(query);
        addToDB(query);
     }
 
-
+/*
+* It is hard to make SQL injectrion.
+* Just in one case it is possibile, but I don't
+* tell you when! ;-)
+ */
     private void addToDB(String query) throws SQLException
     {
         st.executeUpdate(query);

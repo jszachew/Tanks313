@@ -7,8 +7,12 @@ import java.io.IOException;
 
 public class BufferedImageLoader {
     private BufferedImage image;
-    public BufferedImage loadImage (String path) throws IOException {
 
+/*
+* This class is for loading Sheets from resources during init of the game
+ */
+
+    public BufferedImage loadImage (String path) throws IOException {
         image = ImageIO.read(new File(path));
         return image;
 
